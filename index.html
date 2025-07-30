@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeFire Store - متجر حسابات فري فاير</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #4e54c8;
+            --success: #4CAF50;
+            --warning: #FFEB3B;
+            --danger: #F44336;
+            --light: #F7F7F7;
+            --dark: #212121;
+            --whatsapp: #25D366;
+            --facebook: #1877F2;
+            --messenger: #0084FF;
+            --nav-border: rgba(255,255,255,0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Tajawal', 'Arial', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 15px 0; position: fixed; top:0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid var(--nav-border);
+        }
+        header h1 { text-align: center; margin: 0; font-size: 24px; }
+        #products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img {
+            width: 100%; height: 150px; object-fit: cover; border-radius: 10px;
+        }
+        .product-card h3 { margin: 10px 0 5px; }
+        .product-card p { margin: 0; color: #333; }
+        footer {
+            text-align: center; padding: 20px; background: var(--dark); color: #fff; margin-top: 50px;
+        }
+    </style><!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD-2XyDdRd96bMke...",
+        authDomain: "waeilstore-88caa.firebaseapp.com",
+        projectId: "waeilstore-88caa",
+        storageBucket: "waeilstore-88caa.appspot.com",
+        messagingSenderId: "688257524364",
+        appId: "1:688257524364:web:f52aad..."
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+</script>
+
+</head>
+<body>
+    <header>
+        <h1>متجر حسابات فري فاير</h1>
+    </header><main>
+    <section class="container">
+        <h2 style="text-align:center; margin-bottom: 20px;">منتجاتنا</h2>
+        <div id="products"></div>
+    </section>
+</main>
+
+<footer>
+    <p>© 2025 FreeFire Store - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("products");
+        db.collection("products").get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.innerHTML = `
+                    <img src="${data.image}" alt="${data.name}">
+                    <h3>${data.name}</h3>
+                    <p>${data.description || ''}</p>
+                    <p><strong>${data.price} د.ت</strong></p>
+                `;
+                container.appendChild(card);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
